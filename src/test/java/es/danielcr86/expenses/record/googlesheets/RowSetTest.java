@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 class RowSetTest {
+
+    private final Exception A_THROWABLE = new Exception("some message");
 
     @Test
     public void intersectionWithRowSet_emptyRowSetWithAnyRowSet_ReturnsEmptyRowSet() {
@@ -71,5 +74,26 @@ class RowSetTest {
                 new RowSet(ImmutableSet.of(new Row(1), new Row(2), new Row(3)))
                         .intersectionWith(new RowSet(ImmutableSet.of(new Row(0), new Row(1)))))
                 .isEqualTo(new RowSet(ImmutableSet.of(new Row(1))));
+    }
+
+    @Test
+    public void uniqueRowOrThrow_rowSetHasAUniqueRow_returnsTheRow() throws Exception {
+        assertThat(
+                new RowSet(ImmutableSet.of(new Row(1))).uniqueRowOrThrow(() ->  A_THROWABLE))
+                .isEqualTo(new Row(1));
+    }
+
+    @Test
+    public void uniqueRowOrThrow_emptyRowSet_throws() {
+        assertThatThrownBy(
+                () -> new RowSet(ImmutableSet.of()).uniqueRowOrThrow(() ->  A_THROWABLE))
+                .isSameAs(A_THROWABLE);
+    }
+
+    @Test
+    public void uniqueRowOrThrow_rowSetHasTwoRows_throws() {
+        assertThatThrownBy(
+                () -> new RowSet(ImmutableSet.of(new Row(1), new Row(2))).uniqueRowOrThrow(() ->  A_THROWABLE))
+                .isSameAs(A_THROWABLE);
     }
 }
