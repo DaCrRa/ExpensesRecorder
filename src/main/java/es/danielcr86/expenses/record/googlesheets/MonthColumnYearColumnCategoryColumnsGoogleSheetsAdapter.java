@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class MonthColumnYearColumnCategoryColumnsGoogleSheetsAdapter {
+public class MonthColumnYearColumnCategoryColumnsGoogleSheetsAdapter implements MonthColumnYearColumnCategoryColumnsStorageAdapter {
     private static final Function<Integer, Column> COLUMN_MAPPER = Column::new;
     private static final Function<Integer, Row> ROW_MAPPER = Row::new;
 
@@ -20,7 +20,7 @@ public class MonthColumnYearColumnCategoryColumnsGoogleSheetsAdapter {
         this.searcher = searcher;
     }
 
-    Column columnForCategory(final String category, final Integer rowIndex) throws IOException, TableLayoutException {
+    public Column columnForCategory(final String category, final Integer rowIndex) throws IOException, TableLayoutException {
 
         final Set<Column> columns = searcher.search(
                 rowIndex,
@@ -38,7 +38,7 @@ public class MonthColumnYearColumnCategoryColumnsGoogleSheetsAdapter {
                         "No column found for category " + category + " in row " + rowIndex));
     }
 
-    RowSet rowsForMonth(final Month month, final Integer columnIndex) throws IOException {
+    public RowSet rowsForMonth(final Month month, final Integer columnIndex) throws IOException {
 
         final String monthDisplayName = month.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
 
@@ -52,7 +52,7 @@ public class MonthColumnYearColumnCategoryColumnsGoogleSheetsAdapter {
         return new RowSet(rows);
     }
 
-    RowSet rowsForYear(final int year, int columnIndex) throws IOException {
+    public RowSet rowsForYear(final int year, int columnIndex) throws IOException {
 
         final Set<Row> rows = searcher.search(
                 columnIndex,
