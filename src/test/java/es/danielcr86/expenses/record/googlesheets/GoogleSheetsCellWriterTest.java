@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GoogleSheetCellUpdaterTest {
+class GoogleSheetsCellWriterTest {
 
     private static final String SPREADSHEET_ID = "spreadsheet id";
     private static final String RANGE = "range";
@@ -49,8 +49,8 @@ class GoogleSheetCellUpdaterTest {
         when(values.update(SPREADSHEET_ID, RANGE, body)).thenReturn(update);
         when(update.setValueInputOption(USER_ENTERED_INPUT_OPTION)).thenReturn(update);
 
-        final GoogleSheetCellUpdater googleSheetCellUpdater = new GoogleSheetCellUpdater(service, SPREADSHEET_ID, RANGE);
-        googleSheetCellUpdater.saveExpense(amount);
+        final GoogleSheetsCellWriter googleSheetsCellWriter = new GoogleSheetsCellWriter(service, SPREADSHEET_ID, RANGE);
+        googleSheetsCellWriter.writeAmount(amount);
 
         verify(update).execute();
     }

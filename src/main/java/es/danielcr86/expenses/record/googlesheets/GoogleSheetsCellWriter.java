@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-public class GoogleSheetCellUpdater {
+public class GoogleSheetsCellWriter {
 
     private static final String USER_ENTERED_INPUT_OPTION = "USER_ENTERED";
 
@@ -15,7 +15,7 @@ public class GoogleSheetCellUpdater {
     private final String spreadsheetId;
     private final String range;
 
-    public GoogleSheetCellUpdater(final Sheets service,
+    public GoogleSheetsCellWriter(final Sheets service,
                                   final String spreadsheetId,
                                   final String range) {
         this.service = service;
@@ -24,7 +24,7 @@ public class GoogleSheetCellUpdater {
     }
 
 
-    public void saveExpense(final BigDecimal amount) throws IOException {
+    public void writeAmount(final BigDecimal amount) throws IOException {
 
         final ValueRange body = new ValueRange()
                 .setValues(Arrays.asList(Arrays.asList(amount)));
