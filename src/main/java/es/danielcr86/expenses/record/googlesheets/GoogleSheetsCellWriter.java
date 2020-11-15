@@ -2,12 +2,14 @@ package es.danielcr86.expenses.record.googlesheets;
 
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import lombok.EqualsAndHashCode;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-public class GoogleSheetsCellWriter {
+@EqualsAndHashCode
+public class GoogleSheetsCellWriter implements CellWriter {
 
     private static final String USER_ENTERED_INPUT_OPTION = "USER_ENTERED";
 
@@ -23,8 +25,8 @@ public class GoogleSheetsCellWriter {
         this.range = range;
     }
 
-
-    public void writeAmount(final BigDecimal amount) throws IOException {
+    @Override
+    public void write(final BigDecimal amount) throws IOException {
 
         final ValueRange body = new ValueRange()
                 .setValues(Arrays.asList(Arrays.asList(amount)));

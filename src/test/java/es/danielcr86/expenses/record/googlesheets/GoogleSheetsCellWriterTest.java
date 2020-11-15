@@ -50,7 +50,7 @@ class GoogleSheetsCellWriterTest {
         when(update.setValueInputOption(USER_ENTERED_INPUT_OPTION)).thenReturn(update);
 
         final GoogleSheetsCellWriter googleSheetsCellWriter = new GoogleSheetsCellWriter(service, SPREADSHEET_ID, RANGE);
-        googleSheetsCellWriter.writeAmount(amount);
+        googleSheetsCellWriter.write(amount);
 
         verify(update).execute();
     }
