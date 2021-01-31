@@ -1,4 +1,4 @@
-package es.danielcr86.expenses.mail.curenergia;
+package es.danielcr86.expenses.curenergia;
 
 import es.danielcr86.expenses.ExpenseRecord;
 import es.danielcr86.expenses.mail.ExtractorException;
