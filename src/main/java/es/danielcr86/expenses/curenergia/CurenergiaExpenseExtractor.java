@@ -1,8 +1,9 @@
 package es.danielcr86.expenses.curenergia;
 
+import es.danielcr86.expenses.Error;
 import es.danielcr86.expenses.ExpenseRecord;
-import es.danielcr86.expenses.mail.ExtractorException;
 import es.danielcr86.mail.model.Message;
+import io.vavr.control.Either;
 import lombok.SneakyThrows;
 import lombok.Value;
 
@@ -24,20 +25,23 @@ public class CurenergiaExpenseExtractor {
     public static final Pattern PATTERN = Pattern.compile(PATTERN_CONFIG.getPatternValue());
     public static final String LUZ_CATEGORY = "LUZ";
 
-    public ExpenseRecord extractFrom(final Message message) throws ExtractorException {
+    public Either<Error, ExpenseRecord> extractFrom(final Message message) {
         final Matcher matcher = PATTERN.matcher(message.getText());
         if (!matcher.find()) {
-            throw new ExtractorException("Message text does not contain an expense amount." +
-                    "Message: " + message + " " +
-                    "Category: " + LUZ_CATEGORY);
+            // TODO: add error information to error instance.
+            // ("Message text does not contain an expense amount." +
+            //                    "Message: " + message + " " +
+            //                    "Category: " + LUZ_CATEGORY);
+            return Either.left(new Error());
         }
 
         final String amount = matcher.group(PATTERN_CONFIG.getGroup());
 
-        return new ExpenseRecord(
-                YearMonth.of(message.getDate().getYear(), message.getDate().getMonth()),
-                LUZ_CATEGORY,
-                asBigDecimal(amount));
+        return Either.right(
+                new ExpenseRecord(
+                        YearMonth.of(message.getDate().getYear(), message.getDate().getMonth()),
+                        LUZ_CATEGORY,
+                        asBigDecimal(amount)));
     }
 
     @SneakyThrows
