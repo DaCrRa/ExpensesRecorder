@@ -3,6 +3,7 @@ package es.danielcr86.gmail;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import es.danielcr86.mail.model.Message;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,8 +76,8 @@ class GmailAdapterTest {
 
         assertThat(gmailAdapter.getMessages(EMAIL, DATE))
             .containsExactlyInAnyOrder(
-                    MESSAGE_1,
-                    MESSAGE_2);
+                    Either.right(MESSAGE_1),
+                    Either.right(MESSAGE_2));
     }
 
     private ListMessagesResponse listMessagesResponse(final com.google.api.services.gmail.model.Message... gmailMessages) {
